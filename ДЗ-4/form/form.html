@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Домашняя работа №4</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+    <div class="form container">
+        <form class="contact_form formBox" action="#" method="POST">
+            <p class="form_indent">Имя.</p>
+            <input class="form_input userName" type="text">
+            <p class="form_indent">Телефон.</p>
+            <input class="form_input userPhone " type="tel">
+            <p class="form_indent">Email.</p>
+            <input class="form_input userEmail " type="text">
+            <p class="form_indent">Текст.</p>
+            <textarea class="form_textarea userСomment " cols="30" rows="10"></textarea>
+            <p class="form_text_error"></p>
+            <button type="submit" class="form_button submit">Отправить</button>
+        </form>
+    </div>
+    <script>
+
+        class ContactForm {
+            constructor(container = '.formBox') {
+                this.container = container;
+                this.userName = [];
+                this.userPhone = [];
+                this.userEmail = [];
+
+                this._init();
+            }
+            validName(value) {
+                let rex = /[А-Яа-яЁёA-Za-z]/g;
+                this.userName = value.match(rex);
+                console.log(this.userName);
+            }
+            validPhone(value) {
+                let rex = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/g;
+                this.userPhone = value.match(rex);
+                console.log(this.userPhone);
+            }
+            validEmail(value) {
+                let rex = /^.+@+\..+$/ig;
+                this.userEmail = value.match(rex);
+                console.log(this.userEmail);
+            }
+
+            addError() {
+                let error = 'Поле заполнено не верно'
+                if (this.userName === null) {
+                    document.querySelector('.userName').classList.add('form_error');
+                    document.querySelector('.form_text_error').textContent = error;
+                } else {
+                    document.querySelector('.userName').classList.remove('form_error');
+                    document.querySelector('.form_text_error').textContent = null;
+                }
+                if (this.userPhone === null) {
+                    document.querySelector('.userPhone').classList.add('form_error');
+                    document.querySelector('.form_text_error').textContent = error;
+                } else {
+                    document.querySelector('.userPhone').classList.remove('form_error');
+                    document.querySelector('.form_text_error').textContent = null;
+                } if (this.userEmail === null) {
+                    document.querySelector('.userEmail').classList.add('form_error');
+                    document.querySelector('.form_text_error').textContent = error;
+                } else {
+                    document.querySelector('.userEmail').classList.remove('form_error');
+                    document.querySelector('.form_text_error').textContent = null;
+                }
+            }
+
+            _init() {
+                document.querySelector('.formBox').addEventListener('submit', e => {
+                    e.preventDefault();
+                    this.validName(document.querySelector('.userName').value);
+                    this.validPhone(document.querySelector('.userPhone').value);
+                    this.validEmail(document.querySelector('.userEmail').value);
+
+                    this.addError();
+                });
+            }
+        }
+
+        const ctForm = new ContactForm();
+    </script>
+</body>
+
+</html>
